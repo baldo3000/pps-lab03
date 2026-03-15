@@ -1,4 +1,4 @@
-package it.unibo.pps.u03
+package u03
 
 object EncapsulatedSequences:
 
@@ -16,15 +16,14 @@ object EncapsulatedSequences:
 
     def sum(l: Sequence[Int]): Int = l match
       case Cons(h, t) => h + sum(t)
-      case _ => 0
+      case _          => 0
 
     def map[A, B](l: Sequence[A])(mapper: A => B): Sequence[B] = l match
       case Cons(h, t) => Cons(mapper(h), map(t)(mapper))
-      case Nil() => Nil()
-end EncapsulatedSequences
+      case Nil()      => Nil()
 
 object AdditionalSequencesAlgorithms:
-  import EncapsulatedSequences.*
+  import EncapsulatedSequences.*      
   // cases are not accessible: how could this be implemented?
   def filter[A](l1: Sequence[A])(pred: A => Boolean): Sequence[A] = ???
 
@@ -32,4 +31,4 @@ object AdditionalSequencesAlgorithms:
   import EncapsulatedSequences.*, Sequence.*
 
   val l = cons(10, cons(20, cons(30, nil())))
-  println(sum(map(l)(_ + 1)))
+  println(sum(map(l)(_ + 1))) 

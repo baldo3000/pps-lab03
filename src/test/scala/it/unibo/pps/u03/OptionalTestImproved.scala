@@ -6,7 +6,7 @@ import org.junit.Assert.*
 class OptionTestImproved:
 
   // imports needed to work with Options
-  import it.unibo.pps.u03.Optionals.*
+  import u03.Optionals.*
   import Optional.*
 
   // values under test
@@ -27,4 +27,3 @@ class OptionTestImproved:
     assertEquals(Just(optVal + 1), map(optSome)(_ + 1))
     assertEquals(Just("val: " + optVal), map(optSome)(v => "val: " + v))
     assertEquals(Empty(), map(optNone)(v => "val: " + v))
-end OptionTestImproved

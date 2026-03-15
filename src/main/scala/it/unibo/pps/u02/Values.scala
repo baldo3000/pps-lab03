@@ -3,16 +3,20 @@ package it.unibo.pps.u02
 object Values extends App:
 
   // values can be associated to names
-  // namely, non modifiable variables (of course, there's no side-effects)
+  // namely, non-modifiable variables
+  // (of course, there's no side effect)
   val v = 1
+  // types indication is optional (typically inferred)
+  val w: Int = 1
+  // right-hand side contains a whole expression
+  val z = v + 5
+  // usual procedure to print on console (a non-FP hack)
+  println(z)
 
-  val w: Int = 1 // types are optional, they are typically always inferred
-
-  println(v) // a procedure to print on console (a hack, not pure FP)
-
-  println("result is " + v) // Java-style concatenation
-  println(s"result is $v") // string interpolation, with variable evaluation
-  println(s"result is ${v + 1}") // string interpolation, with expr. eval.
+  val a = 1
+  println("result is " + a) // Java-style concatenation
+  println(s"result is $a") // string interpolation, with variable evaluation
+  println(s"result is ${a+1}") // string interpolation, with expr. eval.
 
   // primitive types as expected over the JVM
   val i: Int = 10 + 5 // as in Java, to be read +(10,5)
@@ -27,4 +31,3 @@ object Values extends App:
 
   val u: Unit = () // a singleton type, only assuming () (or written {})
   val u2: Unit = println("a") // ...when output "doesn't care"
-end Values

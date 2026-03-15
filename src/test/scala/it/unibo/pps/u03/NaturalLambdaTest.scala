@@ -4,7 +4,7 @@ import org.junit.*
 import org.junit.Assert.*
 
 class NaturalLambdaTest extends LambdaTest:
-  import it.unibo.pps.u03.Lambda.*
+  import Lambda.*
 
   @Test
   def testZero() =
@@ -26,4 +26,3 @@ class NaturalLambdaTest extends LambdaTest:
     assertTrue(toBoolean(IsZero(Pred(Pred(Plus(N1)(N1))))))
     assertTrue(toBoolean(IsZero(Pred(Pred(Pred(Plus(N2)(N1)))))))
     assertTrue(toBoolean(IsZero(Pred(Plus(N1)(N0)))))
-end NaturalLambdaTest

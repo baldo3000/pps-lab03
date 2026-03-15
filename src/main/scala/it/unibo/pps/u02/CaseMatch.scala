@@ -2,7 +2,7 @@ package it.unibo.pps.u02
 
 object CaseMatch extends App:
 
-  // matching against patterns
+  // matching against patterns, i.e., a switch expression
   val v = 5
   val res = v match
     case n if n > 0 => "pos"
@@ -11,6 +11,7 @@ object CaseMatch extends App:
   println(res) // "pos"
 
   // case-based function (a partial function in this case)
+  // val f = (i: Int) => i match // alternative header
   val f: Int => String = _ match
     case n if n > 0 => "pos"
     case 0 => "zero"
@@ -19,7 +20,6 @@ object CaseMatch extends App:
   println(f(0)) // zero
   // f(-1) raises a scala.MatchError
 
-  val g: Int => String = { case n if n > 0 => "pos" } // 1-liner
+  val g: Int => String = { case n if n > 0 => "pos" } // 1-liner with {}
   println(g(1)) // pos
   // g(0) raises a scala.MatchError
-end CaseMatch

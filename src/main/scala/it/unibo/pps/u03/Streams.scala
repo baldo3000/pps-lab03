@@ -1,6 +1,6 @@
-package it.unibo.pps.u03
+package u03
 
-object Streams extends App:
+object Streams extends App :
 
   import Sequences.*
 
@@ -37,16 +37,10 @@ object Streams extends App:
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
-    // Task 3
-
-    def takeWhile[A](stream: Stream[A])(pred: A => Boolean): Stream[A] = ???
-    
-    def interleave[A](stream1: Stream[A], stream2: Stream[A]): Stream[A] = ???
   end Stream
-end Streams
 
 @main def tryStreams =
-  import Streams.*
+  import Streams.* 
 
   val str1 = Stream.iterate(0)(_ + 1) // {0,1,2,3,..}
   val str2 = Stream.map(str1)(_ + 1) // {1,2,3,4,..}

@@ -1,8 +1,8 @@
 package it.unibo.pps.u02
 
-object DefinedFunctions extends App:
+object DefinedFunctions extends App :
 
-  // defined function
+  // defined function, essentially using UML-like syntax
   def square(d: Double): Double = d * d
 
   println(square(3.0)) // 9.0
@@ -22,7 +22,7 @@ object DefinedFunctions extends App:
   def abs(n: Int): Int =
     def sign(m: Int): Int = m match
       case i if i > 0 => 1
-      case 0 => 0;
+      case 0 => 0
       case _ => -1
     n * sign(n)
 
@@ -37,4 +37,3 @@ object DefinedFunctions extends App:
     _fact(n, 1)
 
   println(factorial2(6)) // 720
-end DefinedFunctions

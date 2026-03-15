@@ -2,7 +2,7 @@ package it.unibo.pps.u03
 
 import org.junit.*
 import org.junit.Assert.*
-import it.unibo.pps.u03.BTrees.Tree.*
+import BTrees.Tree.*
 
 class BTreesTest:
 

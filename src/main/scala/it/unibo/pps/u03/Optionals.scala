@@ -1,4 +1,4 @@
-package it.unibo.pps.u03
+package u03
 
 // overall module
 object Optionals:
@@ -13,16 +13,15 @@ object Optionals:
 
     def isEmpty[A](opt: Optional[A]): Boolean = opt match
       case Empty() => true
-      case _ => false
+      case _       => false
 
     def orElse[A, B >: A](opt: Optional[A], orElse: B): B = opt match
       case Just(a) => a
-      case _ => orElse
+      case _       => orElse
 
     def map[A, B](opt: Optional[A])(f: A => B): Optional[B] = opt match
       case Just(a) => Just(f(a))
-      case _ => Empty()
-end Optionals
+      case _       => Empty()
 
 @main def tryOptionals =
   import Optionals.* // to work with Optionals (to see Optional type)

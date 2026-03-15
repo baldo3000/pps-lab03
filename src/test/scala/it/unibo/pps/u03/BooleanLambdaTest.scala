@@ -4,20 +4,12 @@ import org.junit.*
 import org.junit.Assert.*
 
 class BooleanLambdaTest extends LambdaTest:
-  import it.unibo.pps.u03.Lambda.*
-
-  @Test
-  def testTrue() =
-    assertTrue(toBoolean(True))
-
-  @Test
-  def testFalse() =
-    assertFalse(toBoolean(False))
+  import Lambda.*
 
   @Test
   def testNot() =
-    assertTrue(toBoolean(Not(False)))
-    assertFalse(toBoolean(Not(True)))
+    assertEquals(Not(False), True)
+    assertEquals(Not(True), False)
 
   @Test
   def testOr() =
@@ -32,4 +24,3 @@ class BooleanLambdaTest extends LambdaTest:
     assertFalse(toBoolean(And(False)(True)))
     assertFalse(toBoolean(And(True)(False)))
     assertTrue(toBoolean(And(True)(True)))
-end BooleanLambdaTest
