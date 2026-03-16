@@ -90,13 +90,18 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(h, t) => concat(mapper(h), flatMap(t)(mapper))
       case Nil() => Nil()
 
-//    def flatMapTailRec[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] =
-//      @tailrec
-//      def _flatMap(s: Sequence[A], acc: Sequence[B]): Sequence[B] = s match
-//        case Cons(h, t) => _flatMap(mapper(h), )
-//        case Nil() => acc
-//
-//      _flatMap(s, Nil())
+    //    def flatMapTailRec[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] =
+    //      @tailrec
+    //      def _flatMap(s: Sequence[A], acc: Sequence[B]): Sequence[B] = s match
+    //        case Cons(h, t) => _flatMap(mapper(h), )
+    //        case Nil() => acc
+    //
+    //      _flatMap(s, Nil())
+
+    @tailrec
+    def foldLeft[A, B](s: Sequence[A])(base: B)(folder: (B, A) => B): B = s match
+      case Cons(h, t) => foldLeft(t)(folder(base, h))(folder)
+      case Nil() => base
 
     /*
      * Get the minimum element in the sequence
