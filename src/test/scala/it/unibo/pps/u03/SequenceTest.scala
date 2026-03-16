@@ -5,6 +5,7 @@ import org.junit.Assert.*
 import u03.Optionals.Optional.{Empty, Just}
 
 class SequenceTest:
+
   import u03.Sequences.*
   import Sequence.*
 
@@ -42,10 +43,12 @@ class SequenceTest:
 
   @Test def testReverse() =
     assertEquals(Cons(30, Cons(20, Cons(10, Nil()))), reverse(sequence))
+    assertEquals(Cons(10, Nil()), reverse(Cons(10, Nil())))
     assertEquals(Nil(), reverse(Nil()))
 
   @Test def testFlatMap() =
     assertEquals(Cons(11, Cons(21, Cons(31, Nil()))), flatMap(sequence)(v => Cons(v + 1, Nil())))
+    assertEquals(Cons(10, Cons(11, Nil())), flatMap(Cons(10, Nil()))(v => Cons(v, Cons(v + 1, Nil()))))
     assertEquals(Nil(), flatMap(Nil())(v => Cons(v, Nil())))
 
   @Test def testMin() =
