@@ -17,7 +17,9 @@ object Persons:
         case Teacher(n, _) => n
 
     extension (s: Sequence[Person])
-      def courses: Sequence[String] = flatMap(s) ( _ match
+      def courses: Sequence[String] = flatMap(s)(_ match
         case Teacher(_, c) => Cons(c, Nil())
         case _ => Nil()
       )
+
+      def distinctCourses: Int = foldLeft(distinct(s.courses))(0)((b, _) => b + 1)

@@ -23,3 +23,10 @@ class PersonTest:
     val expected = Cons(course1, Cons(course2, Nil()))
     assertEquals(expected, sequence.courses)
     assertEquals(Nil(), Cons(student1, Cons(student2, Nil())).courses)
+
+  @Test
+  def testDistinctCourses(): Unit =
+    assertEquals(2, sequence.distinctCourses)
+    assertEquals(0, Nil().distinctCourses)
+    assertEquals(0, Cons(student1, Nil()).distinctCourses)
+    assertEquals(1, Cons(teacher1, Cons(teacher1, Nil())).distinctCourses)
