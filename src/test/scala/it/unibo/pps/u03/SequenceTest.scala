@@ -63,6 +63,7 @@ class SequenceTest:
 
   @Test def testEvenIndices(): Unit =
     assertEquals(Cons(10, Cons(30, Nil())), evenIndices(sequence))
+    assertEquals(Cons(10, Nil()), evenIndices(Cons(10, Cons(20, Nil()))))
     assertEquals(Nil(), evenIndices(Nil()))
 
   @Test def testContains(): Unit =

@@ -1,6 +1,7 @@
 package u03
 
 import u03.Optionals.Optional
+import u03.Optionals.Optional.*
 
 import scala.annotation.tailrec
 
@@ -108,14 +109,30 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [30, 20, 10] => 10
      * E.g., [10, 1, 30] => 1
      */
-    def min(s: Sequence[Int]): Optional[Int] = ???
+    def min(s: Sequence[Int]): Optional[Int] =
+      @tailrec
+      def _min(s: Sequence[Int], localMin: Optional[Int]): Optional[Int] = s match
+        case Cons(h, t) => localMin match
+          case Just(v) => _min(t, if h < v then Just(h) else Just(v))
+          case Empty() => _min(t, Just(h))
+        case Nil() => localMin
+
+      _min(s, Empty())
 
     /*
      * Get the elements at even indices
      * E.g., [10, 20, 30] => [10, 30]
      * E.g., [10, 20, 30, 40] => [10, 30]
      */
-    def evenIndices[A](s: Sequence[A]): Sequence[A] = ???
+    def evenIndices[A](s: Sequence[A]): Sequence[A] =
+      @tailrec
+      def _evenIndices(s: Sequence[A], acc: Sequence[A]): Sequence[A] = s match
+        case Cons(h, t) => t match
+          case Cons(h2, t2) => _evenIndices(t2, Cons(h, acc))
+          case Nil() => _evenIndices(Nil(), Cons(h, acc))
+        case Nil() => reverseTailRec(acc)
+
+      _evenIndices(s, Nil())
 
     /*
      * Check if the sequence contains the element
