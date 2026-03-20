@@ -160,7 +160,29 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [[10], [20], [30]]
      * E.g., [10, 20, 20, 30] => [[10], [20, 20], [30]]
      */
-    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = ???
+    def group[A](s: Sequence[A]): Sequence[Sequence[A]] =
+      /**
+       * @param s     the sequence to start from
+       * @param group the element to search at the beginning of the sequence
+       * @param acc   the accumulator for the group
+       * @return a tuple of the group sequence and the remaining sequence
+       *         whose first element is different from group
+       */
+      @tailrec
+      def groupPartial(s: Sequence[A], group: A, acc: Sequence[A]): (Sequence[A], Sequence[A]) = s match
+        case Cons(h, t) if h == group => groupPartial(t, group, Cons(h, acc))
+        case Cons(h, t) => (acc, s)
+        case Nil() => (acc, Nil())
+
+      @tailrec
+      def _group(s: Sequence[A], acc: Sequence[Sequence[A]]): Sequence[Sequence[A]] = s match
+        case Cons(h, t) =>
+          val (group, remaining) = groupPartial(s, h, Nil())
+          _group(remaining, Cons(group, acc))
+        case Nil() => reverse(acc)
+
+      _group(s, Nil())
+
 
     /*
      * Partition the sequence into two sequences based on the predicate
