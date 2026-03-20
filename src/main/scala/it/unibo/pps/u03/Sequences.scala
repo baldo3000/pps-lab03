@@ -69,11 +69,7 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10] => [10]
      * E.g., [] => []
      */
-    def reverse[A](s: Sequence[A]): Sequence[A] = s match
-      case Cons(h, t) => concat(reverse(t), Cons(h, Nil()))
-      case Nil() => Nil()
-
-    def reverseTailRec[A](s: Sequence[A]): Sequence[A] =
+    def reverse[A](s: Sequence[A]): Sequence[A] =
       @tailrec
       def _reverse(s: Sequence[A], acc: Sequence[A]): Sequence[A] = s match
         case Cons(h, t) => _reverse(t, Cons(h, acc))
@@ -130,7 +126,7 @@ object Sequences: // Essentially, generic linkedlists
         case Cons(h, t) => t match
           case Cons(h2, t2) => _evenIndices(t2, Cons(h, acc))
           case Nil() => _evenIndices(Nil(), Cons(h, acc))
-        case Nil() => reverseTailRec(acc)
+        case Nil() => reverse(acc)
 
       _evenIndices(s, Nil())
 
@@ -153,7 +149,7 @@ object Sequences: // Essentially, generic linkedlists
       @tailrec
       def _distinct(s: Sequence[A], acc: Sequence[A]): Sequence[A] = s match
         case Cons(h, t) => if contains(acc)(h) then _distinct(t, acc) else _distinct(t, Cons(h, acc))
-        case Nil() => reverseTailRec(acc)
+        case Nil() => reverse(acc)
 
       _distinct(s, Nil())
     }
