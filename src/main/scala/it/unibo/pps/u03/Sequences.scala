@@ -41,17 +41,6 @@ object Sequences: // Essentially, generic linkedlists
       case Cons(_, t) if n > 0 => skip(t)(n - 1)
       case _ => s
 
-    /*
-     * Zip two sequences
-     * E.g., [10, 20, 30], [40, 50] => [(10, 40), (20, 50)]
-     * E.g., [10], [] => []
-     * E.g., [], [] => []
-     */
-    def zip[A, B](first: Sequence[A], second: Sequence[B]): Sequence[(A, B)] = (first, second) match
-      case (Cons(h1, t1), Cons(h2, t2)) => Cons((h1, h2), zip(t1, t2))
-      case (Nil(), _) => Nil()
-      case (_, Nil()) => Nil()
-
     /**
      * Tail recursive implementation of reverse.
      * Note that this is 0(n) efficient, so it will be used by other methods in this module
@@ -64,6 +53,24 @@ object Sequences: // Essentially, generic linkedlists
         case Nil() => acc
 
       _reverse(s, Nil())
+
+    /*
+     * Zip two sequences
+     * E.g., [10, 20, 30], [40, 50] => [(10, 40), (20, 50)]
+     * E.g., [10], [] => []
+     * E.g., [], [] => []
+     */
+    def zipNotTailRecursive[A, B](first: Sequence[A], second: Sequence[B]): Sequence[(A, B)] = (first, second) match
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons((h1, h2), zipNotTailRecursive(t1, t2))
+      case _ => Nil()
+
+    def zip[A, B](first: Sequence[A], second: Sequence[B]): Sequence[(A, B)] =
+      @tailrec
+      def _zip(first: Sequence[A], second: Sequence[B], acc: Sequence[(A, B)]): Sequence[(A, B)] = (first, second) match
+        case (Cons(h1, t1), Cons(h2, t2)) => _zip(t1, t2, Cons((h1, h2), acc))
+        case _ => reverse(acc)
+
+      _zip(first, second, Nil())
 
     /*
      * Concatenate two sequences

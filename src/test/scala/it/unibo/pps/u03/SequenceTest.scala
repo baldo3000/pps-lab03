@@ -36,7 +36,7 @@ class SequenceTest:
   @Test
   def testZip(): Unit =
     val l2: Sequence[String] = Cons("10", Cons("20", Cons("30", Nil())))
-    assertEquals(Cons((10, "10"), Cons((20, "20"), Cons((30, "30"), Nil()))), zip(sequence, l2))
+    assertEquals(Cons((10, "10"), Cons((20, "20"), Cons((30, "30"), Nil()))), zipNotTailRecursive(sequence, l2))
     assertEquals(Nil(), zip(sequence, Nil()))
     assertEquals(Nil(), zip(Nil(), l2))
     assertEquals(Nil(), zip(Nil(), Nil()))
