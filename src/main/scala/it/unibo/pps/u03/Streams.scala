@@ -37,7 +37,7 @@ object Streams extends App:
     def iterate[A](init: => A)(next: A => A): Stream[A] =
       cons(init, iterate(next(init))(next))
 
-    def fill[A](n: Int)(k: A): Stream[A] =
+    def fill[A](n: Int)(k: => A): Stream[A] =
       if n > 0 then cons(k, fill(n - 1)(k)) else Empty()
 
     private def fibonacciStep(prevprev: Int, prev: Int): Stream[Int] =
@@ -46,9 +46,20 @@ object Streams extends App:
 
     val fibonacci: Stream[Int] = cons(0, cons(1, fibonacciStep(0, 1)))
 
-    def interleave[A](s1: Stream[A], s2: Stream[A]): Stream[A] = (s1, s2) match
-      case (Cons(head, tail), _) => cons(head(), interleave(s2, tail()))
+    def interleave[A](s1: Stream[A], s2: Stream[A]): Stream[A] = s1 match
+      case Cons(head, tail) => cons(head(), interleave(s2, tail()))
       case _ => s2
+
+    def concat[A](s1: => Stream[A], s2: => Stream[A]): Stream[A] = s1 match
+      case Cons(head, tail) => cons(head(), concat(tail(), s2))
+      case _ => s2
+
+    def fromList[A](lst: Sequence[A]): Stream[A] = lst match
+      case Sequence.Cons(h, t) => cons(h, fromList(t))
+      case _ => Empty()
+
+    def cycle[A](lst: Sequence[A]): Stream[A] =
+      concat(fromList(lst), cycle(lst))
 
     extension [A](s: Stream[A])
       def takeWhile(pred: A => Boolean): Stream[A] = s match

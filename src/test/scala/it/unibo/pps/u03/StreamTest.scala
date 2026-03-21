@@ -8,7 +8,7 @@ class StreamTest:
   import u03.Streams.*
   import Stream.*
   import u03.Sequences.*
-  import Sequence.*
+  import Sequence.{Cons, Nil}
 
   val iterateStream: Stream[Int] = Stream.iterate(0)(_ + 1)
 
@@ -33,3 +33,19 @@ class StreamTest:
     assertEquals(Cons(0, Cons(1, Nil())), toList(take(interleave(iterateStream, empty()))(2)))
     assertEquals(Cons(0, Cons(1, Nil())), toList(take(interleave(empty(), iterateStream))(2)))
     assertEquals(Nil(), toList(interleave(empty(), empty())))
+
+  @Test
+  def testFromList(): Unit =
+    val list = Cons(1, Cons(2, Cons(3, Nil())))
+    assertEquals(list, toList(fromList(list)))
+
+  @Test
+  def testConcat(): Unit =
+    val list = Cons(1, Cons(2, Cons(3, Nil())))
+    val concatList = Cons(1, Cons(2, Cons(3, Cons(1, Cons(2, Cons(3, Nil()))))))
+    assertEquals(concatList, toList(concat(fromList(list), fromList(list))))
+
+  @Test
+  def testCycle(): Unit =
+    val list = Cons(1, Cons(2, Cons(3, Nil())))
+    assertEquals(Cons(1, Cons(2, Cons(3, Cons(1, Nil())))), toList(take(cycle(list))(4)))
