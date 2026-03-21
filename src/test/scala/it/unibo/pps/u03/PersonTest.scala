@@ -5,7 +5,7 @@ import org.junit.Assert.*
 
 class PersonTest:
 
-  import u03.Persons.*
+  import u03.People.*
   import Person.*
   import u03.Sequences.*
   import Sequence.*

@@ -1,6 +1,6 @@
 package u03
 
-object Persons:
+object People:
 
   enum Person:
     case Student(name: String, year: Int)
