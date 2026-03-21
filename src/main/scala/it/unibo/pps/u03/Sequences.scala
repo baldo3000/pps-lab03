@@ -52,16 +52,6 @@ object Sequences: // Essentially, generic linkedlists
       case (Nil(), _) => Nil()
       case (_, Nil()) => Nil()
 
-    /*
-     * Concatenate two sequences
-     * E.g., [10, 20, 30], [40, 50] => [10, 20, 30, 40, 50]
-     * E.g., [10], [] => [10]
-     * E.g., [], [] => []
-     */
-    def concat[A](s1: Sequence[A], s2: Sequence[A]): Sequence[A] = s1 match
-      case Cons(h, t) => Cons(h, concat(t, s2))
-      case _ => s2
-
     /**
      * Tail recursive implementation of reverse.
      * Note that this is 0(n) efficient, so it will be used by other methods in this module
@@ -76,22 +66,41 @@ object Sequences: // Essentially, generic linkedlists
       _reverse(s, Nil())
 
     /*
+     * Concatenate two sequences
+     * E.g., [10, 20, 30], [40, 50] => [10, 20, 30, 40, 50]
+     * E.g., [10], [] => [10]
+     * E.g., [], [] => []
+     */
+    def concatNotTailRecursive[A](s1: Sequence[A], s2: Sequence[A]): Sequence[A] = s1 match
+      case Cons(h, t) => Cons(h, concatNotTailRecursive(t, s2))
+      case _ => s2
+
+    def concat[A](s1: Sequence[A], s2: Sequence[A]): Sequence[A] =
+      @tailrec
+      def _concat(s1: Sequence[A], s2: Sequence[A], acc: Sequence[A]): Sequence[A] = (s1, s2) match
+        case (Cons(h, t), _) => _concat(t, s2, Cons(h, acc))
+        case (_, Cons(h, t)) => _concat(s1, t, Cons(h, acc))
+        case _ => reverse(acc)
+
+      _concat(s1, s2, Nil())
+
+    /*
      * Map the elements of the sequence to a new sequence and flatten the result
      * E.g., [10, 20, 30], calling with mapper(v => [v, v + 1]) returns [10, 11, 20, 21, 30, 31]
      * E.g., [10, 20, 30], calling with mapper(v => [v]) returns [10, 20, 30]
      * E.g., [10, 20, 30], calling with mapper(v => Nil()) returns []
      */
-    def flatMap[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] = s match
-      case Cons(h, t) => concat(mapper(h), flatMap(t)(mapper))
+    def flatMapNotTailRecursive[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] = s match
+      case Cons(h, t) => concat(mapper(h), flatMapNotTailRecursive(t)(mapper))
       case Nil() => Nil()
 
-    //    def flatMapTailRec[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] =
-    //      @tailrec
-    //      def _flatMap(s: Sequence[A], acc: Sequence[B]): Sequence[B] = s match
-    //        case Cons(h, t) => _flatMap(mapper(h), )
-    //        case Nil() => acc
-    //
-    //      _flatMap(s, Nil())
+    def flatMap[A, B](s: Sequence[A])(mapper: A => Sequence[B]): Sequence[B] =
+      @tailrec
+      def _flatMap(s: Sequence[A], acc: Sequence[B]): Sequence[B] = s match
+        case Cons(h, t) => _flatMap(t, concat(acc, mapper(h)))
+        case Nil() => acc
+
+      _flatMap(s, Nil())
 
     @tailrec
     def foldLeft[A, B](s: Sequence[A])(base: B)(folder: (B, A) => B): B = s match
