@@ -63,12 +63,11 @@ object Sequences: // Essentially, generic linkedlists
       case (_, Cons(h, t)) => Cons(h, concat(s1, t))
       case (_, _) => Nil()
 
-    /*
-     * Reverse the sequence
-     * E.g., [10, 20, 30] => [30, 20, 10]
-     * E.g., [10] => [10]
-     * E.g., [] => []
-     */
+    /**
+     * Tail recursive implementation of reverse.
+     * Note that this is 0(n) efficient, so it will be used by other methods in this module
+     * to allow efficient tail recursive implementations
+     * */
     def reverse[A](s: Sequence[A]): Sequence[A] =
       @tailrec
       def _reverse(s: Sequence[A], acc: Sequence[A]): Sequence[A] = s match
