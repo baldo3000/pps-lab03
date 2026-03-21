@@ -40,6 +40,11 @@ object Streams extends App:
     def fill[A](n: Int)(k: A): Stream[A] =
       if n > 0 then cons(k, fill(n - 1)(k)) else Empty()
 
+    private def fibonacciStep(prevprev: Int, prev: Int): Stream[Int] =
+      val newValue = prev + prevprev
+      cons(newValue, fibonacciStep(prev, newValue))
+
+    val fibonacci: Stream[Int] = cons(0, cons(1, fibonacciStep(0, 1)))
 
     extension [A](s: Stream[A])
       def takeWhile(pred: A => Boolean): Stream[A] = s match

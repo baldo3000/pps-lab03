@@ -21,3 +21,7 @@ class StreamTest:
   def testFill(): Unit =
     assertEquals(Nil(), toList(fill(0)(1)))
     assertEquals(Cons(1, Cons(1, Nil())), toList(fill(2)(1)))
+
+  @Test
+  def testFibonacci(): Unit =
+    assertEquals(Cons(0, Cons(1, Cons(1, Cons(2, Cons(3, Nil()))))), toList(take(fibonacci)(5)))
