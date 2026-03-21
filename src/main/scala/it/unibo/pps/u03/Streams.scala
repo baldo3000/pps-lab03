@@ -26,7 +26,7 @@ object Streams extends App:
       case _ => Empty()
 
     def filter[A](stream: Stream[A])(pred: A => Boolean): Stream[A] = stream match
-      case Cons(head, tail) if (pred(head())) => cons(head(), filter(tail())(pred))
+      case Cons(head, tail) if pred(head()) => cons(head(), filter(tail())(pred))
       case Cons(head, tail) => filter(tail())(pred)
       case _ => Empty()
 
@@ -45,6 +45,10 @@ object Streams extends App:
       cons(newValue, fibonacciStep(prev, newValue))
 
     val fibonacci: Stream[Int] = cons(0, cons(1, fibonacciStep(0, 1)))
+
+    def interleave[A](s1: Stream[A], s2: Stream[A]): Stream[A] = (s1, s2) match
+      case (Cons(head, tail), _) => cons(head(), interleave(s2, tail()))
+      case _ => s2
 
     extension [A](s: Stream[A])
       def takeWhile(pred: A => Boolean): Stream[A] = s match

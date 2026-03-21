@@ -25,3 +25,11 @@ class StreamTest:
   @Test
   def testFibonacci(): Unit =
     assertEquals(Cons(0, Cons(1, Cons(1, Cons(2, Cons(3, Nil()))))), toList(take(fibonacci)(5)))
+
+  @Test
+  def testInterleave(): Unit =
+    assertEquals(Cons(0, Cons(0, Cons(1, Cons(1, Cons(2, Nil()))))), toList(take(interleave(iterateStream, iterateStream))(5)))
+    assertEquals(Cons(0, Cons(56, Cons(1, Cons(56, Cons(2, Nil()))))), toList(take(interleave(iterateStream, fill(5)(56)))(5)))
+    assertEquals(Cons(0, Cons(1, Nil())), toList(take(interleave(iterateStream, empty()))(2)))
+    assertEquals(Cons(0, Cons(1, Nil())), toList(take(interleave(empty(), iterateStream))(2)))
+    assertEquals(Nil(), toList(interleave(empty(), empty())))
